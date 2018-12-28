@@ -22,7 +22,7 @@ public class GameView extends View {
 
     private Cell[][] cells;
     private Cell player, exit;
-    private static final int COLS = 10, ROWS = 20;
+    private static final int COLS = 5, ROWS = 5;
     private static final int WALL_THICKNESS = 4;
 
     private float cellSize, hMargin, vMargin;
@@ -33,7 +33,7 @@ public class GameView extends View {
         super(context, attrs);
 
         wallPaint = new Paint();
-        wallPaint.setColor(Color.BLACK);
+        wallPaint.setColor(Color.WHITE);
         wallPaint.setStrokeWidth(WALL_THICKNESS);
 
         playerPaint = new Paint();
@@ -134,7 +134,7 @@ public class GameView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.GREEN);
+        canvas.drawColor(Color.BLACK);
 
         int width = getWidth();
         int height = getHeight();
