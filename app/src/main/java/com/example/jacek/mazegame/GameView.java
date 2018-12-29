@@ -22,7 +22,7 @@ public class GameView extends View {
 
     private Cell[][] cells;
     private Cell player, exit;
-    private static final int COLS = 5, ROWS = 5;
+    private static final int COLS = 10, ROWS = 10;
     private static final int WALL_THICKNESS = 4;
 
     private float cellSize, hMargin, vMargin;
@@ -116,20 +116,45 @@ public class GameView extends View {
         player = cells[0][0];
         exit = cells[COLS -1][ROWS -1];
 
-        current = cells[0][0];
-        current.visited = true;
 
-        do {
-            next = getNeighbour(current);
-            if (next != null) {
-                removeWall(current, next);
-                stack.push(current);
-                current = next;
+        for (int i=0; i<2; i++){
+            for (int j=0; j<2; j++){
+                for (int x=i+i*(COLS/2-1); x<COLS/2+i*COLS/2; x++){
+                    for (int y=j+j*(ROWS/2-1); y<ROWS/2+j*ROWS/2; y++){
+
+                        cells[x][y].visited=false;
+
+                    }
+                }
+
+                current = cells[i+i*4][j+j*4];
                 current.visited = true;
-            } else {
-                current = stack.pop();
+
+                do {
+                    next = getNeighbour(current);
+                    if (next != null) {
+                        removeWall(current, next);
+                        stack.push(current);
+                        current = next;
+                        current.visited = true;
+                    } else {
+                        current = stack.pop();
+                    }
+                } while (!stack.empty());
             }
-        } while (!stack.empty());
+        }
+
+        connectMazes();
+    }
+
+    private void connectMazes(){
+
+        removeWall(cells[COLS/2-1][ROWS/4],cells[COLS/2][ROWS/4]); //1/2
+        removeWall(cells[COLS/2-1][ROWS/4+ROWS/2],cells[COLS/2][ROWS/4+ROWS/2]); //3/4
+
+        removeWall(cells[COLS/4][ROWS/2-1],cells[COLS/4][ROWS/2]); //1/3
+        removeWall(cells[COLS/4+COLS/2][ROWS/2-1],cells[COLS/4+COLS/2][ROWS/2]); //2/4
+
     }
 
     @Override
@@ -281,7 +306,7 @@ public class GameView extends View {
         leftWall = true,
         bottomWall = true,
         rightWall = true,
-        visited = false;
+        visited = true;
 
         int col, row;
 
