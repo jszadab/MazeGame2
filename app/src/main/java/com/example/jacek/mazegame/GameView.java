@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Chronometer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,6 +31,8 @@ public class GameView extends View {
     private Paint wallPaint, playerPaint, exitPaint;
     private Random random;
 
+    GameActivity ga;
+
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
@@ -45,7 +49,11 @@ public class GameView extends View {
         random = new Random();
 
         createMaze();
+
+        ga = (GameActivity) context;
+
     }
+
 
     private Cell getNeighbour(Cell cell){
         ArrayList<Cell> neighbours = new ArrayList<>();
@@ -74,7 +82,6 @@ public class GameView extends View {
             int index = random.nextInt(neighbours.size());
             return neighbours.get(index);
         }
-
         return null;
     }
 
@@ -225,6 +232,9 @@ public class GameView extends View {
                 (exit.col+1)*cellSize-margin,
                 (exit.row+1)*cellSize-margin,
                 exitPaint);
+
+
+
     }
 
     private void movePlayer(Direction direction){
@@ -251,9 +261,14 @@ public class GameView extends View {
         invalidate();
     }
 
+    boolean isStarted = false;
+
     private void checkExit(){
-        if (player== exit)
-            createMaze();
+
+            if (isStarted == true && player == exit){
+                ga.chrono.stop();
+            }
+
     }
 
     @Override
@@ -275,6 +290,8 @@ public class GameView extends View {
             float absDx = Math.abs(dx);
             float absDy = Math.abs(dy);
 
+
+
             if (absDx > cellSize || absDy > cellSize){
 
                 if (absDx > absDy){
@@ -294,7 +311,20 @@ public class GameView extends View {
 
                 }
             }
+
+            if (isStarted == false)
+            {
+                ga.chrono.setBase(SystemClock.elapsedRealtime());
+                ga.chrono.start();
+
+
+                isStarted = true;
+            }
+
+
             return true;
+
+
         }
 
         return super.onTouchEvent(event);
