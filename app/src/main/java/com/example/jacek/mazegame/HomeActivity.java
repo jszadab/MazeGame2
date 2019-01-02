@@ -22,4 +22,9 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, ScoresActivity.class);
         startActivity(intent);
     }
+
+    private void loadMazes()
+    {
+
+    }
 }

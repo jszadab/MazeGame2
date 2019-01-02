@@ -29,9 +29,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="28dp"
                     android:gravity="center_horizontal"
                     android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="30sp"
+                    android:text="TextView" />
 
 
             </RelativeLayout>
@@ -42,6 +53,21 @@
                 android:layout_weight="3">
 
 
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="saveAndAgain"
+                    android:text="Save and again" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/button3"
+                    android:layout_alignParentStart="true"
+                    android:onClick="continueWithoutSave"
+                    android:text="Continue" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -53,7 +79,7 @@
 
         <view
         class="com.example.jacek.mazegame.GameView"
-        id="@+id/gameview"
+        android:id="@+id/gameview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
