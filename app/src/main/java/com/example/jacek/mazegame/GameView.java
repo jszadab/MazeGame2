@@ -10,8 +10,16 @@ import android.util.AttributeSet;
 
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Chronometer;
 
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
@@ -32,6 +40,7 @@ public class GameView extends View {
     private Random random;
 
     GameActivity ga;
+    Context ctx;
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -50,10 +59,72 @@ public class GameView extends View {
 
         createMaze();
 
-        ga = (GameActivity) context;
+        ctx = context; // context to file i/o
+
+        serializeMaze();
+
+        deserializeMaze();
+
+        player = cells[0][0];
+        exit = cells[COLS -1][ROWS -1];
+
+
+        ga = (GameActivity) context; //class instance with chrono
+
+
 
     }
 
+
+
+    private void  serializeMaze(){
+
+        String filePath = ctx.getFilesDir().getPath().toString() + "/fileName.txt";
+        File f = new File(filePath);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(cells);
+
+        try {
+            FileOutputStream fileOut = new FileOutputStream(f);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(json);
+            out.close();
+            fileOut.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void deserializeMaze(){
+
+        String filePath = ctx.getFilesDir().getPath().toString() + "/fileName.txt";
+        File f = new File(filePath);
+
+        Gson gson = new Gson();
+
+        try {
+            FileInputStream fileIn = new FileInputStream(f);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            cells = gson.fromJson((String)in.readObject(), Cell[][].class);
+
+            in.close();
+            fileIn.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     private Cell getNeighbour(Cell cell){
         ArrayList<Cell> neighbours = new ArrayList<>();
@@ -330,7 +401,8 @@ public class GameView extends View {
         return super.onTouchEvent(event);
     }
 
-    private class Cell{
+    private class Cell {
+
         boolean
         topWall = true,
         leftWall = true,

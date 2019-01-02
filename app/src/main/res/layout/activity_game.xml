@@ -41,19 +41,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3">
 
-                <Button
-                    android:id="@+id/btnStartChrono"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Start" />
-
-                <Button
-                    android:id="@+id/btnStopChrono"
-                    android:layout_width="match_parent"
-                    android:layout_below="@+id/btnStartChrono"
-                    android:layout_height="wrap_content"
-                    android:text="Stop" />
-
 
             </RelativeLayout>
         </LinearLayout>

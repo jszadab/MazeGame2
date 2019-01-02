@@ -1,26 +1,13 @@
 package com.example.jacek.mazegame;
 
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Chronometer;
 
-
-public class GameActivity extends AppCompatActivity {
-
-
-    public Chronometer chrono;
-
+public class ScoresActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        chrono = (Chronometer)findViewById(R.id.chrono);
-
-
+        setContentView(R.layout.activity_scores);
     }
-
-
-
 }
