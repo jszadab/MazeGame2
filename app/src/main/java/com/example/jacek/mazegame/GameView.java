@@ -11,8 +11,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
-import com.example.jacek.mazegame.Maze;
-import com.example.jacek.mazegame.Cell;
 
 public class GameView extends View {
 
@@ -186,8 +184,11 @@ public class GameView extends View {
 
         canvas.translate(hMargin, vMargin);
 
-        for (int x=0; x<COLS; x++){
-            for(int y=0; y<ROWS; y++){
+
+
+        for (int x=player.col-1; x<=player.col+1; x++){
+            for(int y=player.row-1; y<=player.row+1; y++){
+                if (x<0 || x>COLS || y<0 || y>ROWS ) continue;
                 if (cells[x][y].topWall)
                     canvas.drawLine(
                             x*cellSize,
@@ -237,8 +238,6 @@ public class GameView extends View {
                 (exit.col+1)*cellSize-margin,
                 (exit.row+1)*cellSize-margin,
                 exitPaint);
-
-
 
     }
 
