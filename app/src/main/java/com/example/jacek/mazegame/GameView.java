@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -19,13 +20,17 @@ public class GameView extends View {
     }
 
     private Cell[][] cells;
+    private Cell[] lamps;
     private Cell player, exit;
-    private static final int COLS = 10, ROWS = 10;
+    private static final int COLS = 10, ROWS = 10, LAMPS = 2;
     private static final int WALL_THICKNESS = 4;
 
     private float cellSize, hMargin, vMargin;
-    private Paint wallPaint, playerPaint, exitPaint;
+    private Paint wallPaint, playerPaint, exitPaint, lampPaint;
     private Random random;
+
+    private boolean isChronoStarted = false;
+    private long chronoTime;
 
     GameActivity ga;
 
@@ -33,7 +38,7 @@ public class GameView extends View {
         super(context, attrs);
 
         wallPaint = new Paint();
-        wallPaint.setColor(Color.WHITE);
+        wallPaint.setColor(Color.GRAY);
         wallPaint.setStrokeWidth(WALL_THICKNESS);
 
         playerPaint = new Paint();
@@ -42,17 +47,16 @@ public class GameView extends View {
         exitPaint = new Paint();
         exitPaint.setColor(Color.BLUE);
 
+        lampPaint = new Paint();
+        lampPaint.setColor(Color.YELLOW);
+
         random = new Random();
 
         createMaze();
 
         ((MyApplication) MyApplication.getAppContext()).setMaze(new Maze(cells));
 
-
-        player = cells[0][0];
-        exit = cells[COLS -1][ROWS -1];
-
-        ga = (GameActivity) context; //class instance with chrono
+        ga = (GameActivity) context; //class instance with chrono etc.
 
     }
 
@@ -109,6 +113,13 @@ public class GameView extends View {
         }
     }
 
+    public void setBegin(){
+        player = cells[0][0];
+        lamps = new Cell[LAMPS];
+        exit = cells[COLS -1][ROWS -1];
+
+    }
+
     public void createMaze(){
 
         Stack<Cell> stack = new Stack<>();
@@ -122,9 +133,7 @@ public class GameView extends View {
             }
         }
 
-        player = cells[0][0];
-        exit = cells[COLS -1][ROWS -1];
-
+        setBegin();
 
         for (int i=0; i<2; i++){
             for (int j=0; j<2; j++){
@@ -167,28 +176,9 @@ public class GameView extends View {
 
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.BLACK);
-
-        int width = getWidth();
-        int height = getHeight();
-
-        if (width/height < COLS/ROWS)
-            cellSize = width/(COLS+1);
-        else
-            cellSize = height/(ROWS+1);
-
-        hMargin = (width-COLS*cellSize)/2;
-        vMargin = (height-ROWS*cellSize)/2;
-
-        canvas.translate(hMargin, vMargin);
-
-
-
-        for (int x=player.col-1; x<=player.col+1; x++){
-            for(int y=player.row-1; y<=player.row+1; y++){
-                if (x<0 || x>COLS || y<0 || y>ROWS ) continue;
+    private void drawWhole(Canvas canvas){
+        for (int x=0; x<COLS; x++){
+            for(int y=0; y<ROWS; y++){
                 if (cells[x][y].topWall)
                     canvas.drawLine(
                             x*cellSize,
@@ -222,15 +212,105 @@ public class GameView extends View {
 
             }
         }
+    }
+
+    private void drawPart(Canvas canvas){
+
+        drawFromCell(canvas, player);
+
+        for (int x=0; x<LAMPS; x++){
+            if (lamps[x] != null){
+                drawFromCell(canvas, lamps[x]);
+            }
+        }
+
+        drawFromCell(canvas, exit);
+
+
+    }
+
+    private void drawFromCell(Canvas canvas, Cell cell){
+        for (int x=cell.col-1; x<=cell.col+1; x++){
+            for(int y=cell.row-1; y<=cell.row+1; y++){
+                if (x<0 || x>=COLS || y<0 || y>=ROWS ) continue;
+                if (cells[x][y].topWall)
+                    canvas.drawLine(
+                            x*cellSize,
+                            y*cellSize,
+                            (x+1)*cellSize,
+                            y*cellSize,
+                            wallPaint);
+
+                if (cells[x][y].leftWall)
+                    canvas.drawLine(
+                            x*cellSize,
+                            y*cellSize,
+                            x*cellSize,
+                            (y+1)*cellSize,
+                            wallPaint);
+
+                if (cells[x][y].bottomWall)
+                    canvas.drawLine(
+                            x*cellSize,
+                            (y+1)*cellSize,
+                            (x+1)*cellSize,
+                            (y+1)*cellSize,
+                            wallPaint);
+                if (cells[x][y].rightWall)
+                    canvas.drawLine(
+                            (x+1)*cellSize,
+                            y*cellSize,
+                            (x+1)*cellSize,
+                            (y+1)*cellSize,
+                            wallPaint);
+
+            }
+        }
+    }
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+
+        int width = getWidth();
+        int height = getHeight();
+
+        if (width/height < COLS/ROWS)
+            cellSize = width/(COLS+1);
+        else
+            cellSize = height/(ROWS+1);
+
+        hMargin = (width-COLS*cellSize)/2;
+        vMargin = (height-ROWS*cellSize)/2;
+
+        canvas.translate(hMargin, vMargin);
+
+
+        if (ga.lightSwitch.isChecked())
+            drawWhole(canvas);
+        else
+            drawPart(canvas);
 
         float margin = cellSize/10;
 
+
+        drawExit(canvas, margin);
+        drawLamps(canvas, margin);
+        drawPlayer(canvas, margin);
+
+    }
+
+    private void drawPlayer(Canvas canvas, float margin){
+
         canvas.drawRect(
-                player.col*cellSize+margin,
-                player.row*cellSize+margin,
-                (player.col+1)*cellSize-margin,
-                (player.row+1)*cellSize-margin,
+                player.col*cellSize+2*margin,
+                player.row*cellSize+2*margin,
+                (player.col+1)*cellSize-2*margin,
+                (player.row+1)*cellSize-2*margin,
                 playerPaint);
+    }
+
+    private void drawExit(Canvas canvas, float margin){
 
         canvas.drawRect(
                 exit.col*cellSize+margin,
@@ -238,10 +318,27 @@ public class GameView extends View {
                 (exit.col+1)*cellSize-margin,
                 (exit.row+1)*cellSize-margin,
                 exitPaint);
+    }
+
+    private void drawLamps(Canvas canvas, float margin){
+
+        for (int x=0; x<LAMPS; x++) {
+            if (lamps[x] != null) {
+                canvas.drawRect(
+                        lamps[x].col * cellSize + margin,
+                        lamps[x].row * cellSize + margin,
+                        (lamps[x].col + 1) * cellSize - margin,
+                        (lamps[x].row + 1) * cellSize - margin,
+                        lampPaint);
+            }
+        }
 
     }
 
-    private void movePlayer(Direction direction){
+
+
+
+        private void movePlayer(Direction direction){
         switch (direction){
             case UP:
                 if (!player.topWall)
@@ -261,6 +358,12 @@ public class GameView extends View {
                 break;
         }
 
+        if (!isChronoStarted){
+            ga.chrono.setBase(SystemClock.elapsedRealtime());
+            ga.chrono.start();
+            isChronoStarted = true;
+        }
+
         checkExit();
         invalidate();
     }
@@ -268,48 +371,78 @@ public class GameView extends View {
     private void checkExit(){
 
             if (player == exit){
-                createMaze();
+                ga.chrono.stop();
+                chronoTime = SystemClock.elapsedRealtime() - ga.chrono.getBase();
             }
     }
+
 
     @Override
     public boolean onTouchEvent (MotionEvent event){
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-            return true;
+        if (event.getAction() == MotionEvent.ACTION_DOWN){
 
-        if(event.getAction() == MotionEvent.ACTION_MOVE){
-            float x = event.getX();
-            float y = event.getY();
+            if (ga.lightSwitch.isChecked()){
+                float x = event.getX();
+                float y = event.getY();
 
-            float playerCenterX = hMargin + (player.col+0.5f)*cellSize;
-            float playerCenterY = vMargin + (player.row+0.5f)*cellSize;
+                x -= hMargin;
+                y -= vMargin;
 
-            float dx = x-playerCenterX;
-            float dy = y-playerCenterY;
-
-            float absDx = Math.abs(dx);
-            float absDy = Math.abs(dy);
-
-
-
-            if (absDx > cellSize || absDy > cellSize){
-
-                if (absDx > absDy){
-                    //move in x-dir
-                    if (dx > 0)
-                        movePlayer(Direction.RIGHT);
-                    else
-                    movePlayer(Direction.LEFT);
+                if (lamps[0] == null) {
+                    lamps[0] = new Cell((int)(x/cellSize),(int)(y/cellSize));
+                    invalidate();
                 }
-                else{
-                    //move in y-dir
-                    if (dy > 0)
-                        movePlayer(Direction.DOWN);
-                    else
-                    movePlayer(Direction.UP);
+                else if (lamps[1] == null && ((lamps[0].col != (int)(x/cellSize) ) || (lamps[0].row != (int)(y/cellSize) ))) {
+
+                    lamps[1] = new Cell((int)(x/cellSize),(int)(y/cellSize));
+                    invalidate();
                 }
             }
+
+
+
+            return true;
+        }
+
+
+        if(event.getAction() == MotionEvent.ACTION_MOVE){
+
+            if (!ga.lightSwitch.isChecked()){
+                float x = event.getX();
+                float y = event.getY();
+
+                float playerCenterX = hMargin + (player.col+0.5f)*cellSize;
+                float playerCenterY = vMargin + (player.row+0.5f)*cellSize;
+
+                float dx = x-playerCenterX;
+                float dy = y-playerCenterY;
+
+                float absDx = Math.abs(dx);
+                float absDy = Math.abs(dy);
+
+
+
+                if (absDx > cellSize || absDy > cellSize){
+
+                    if (absDx > absDy){
+                        //move in x-dir
+                        if (dx > 0)
+                            movePlayer(Direction.RIGHT);
+                        else
+                            movePlayer(Direction.LEFT);
+                    }
+                    else{
+                        //move in y-dir
+                        if (dy > 0)
+                            movePlayer(Direction.DOWN);
+                        else
+                            movePlayer(Direction.UP);
+                    }
+                }
+            }
+
+
 
             return true;
         }
