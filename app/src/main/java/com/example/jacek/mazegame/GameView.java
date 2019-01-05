@@ -47,28 +47,47 @@ public class GameView extends View {
 
         createMaze();
 
-        ((MyApplication) MyApplication.getAppContext()).setMaze(new Maze(cells));
-
-        ga = (GameActivity) context; //class instance with chrono etc.
+        ga = (GameActivity) context; //"exchange" instance
 
     }
 
-    public void colorMode(){
+    public void setColorMode(){
 
         if (ga.colorSwitch.isChecked()){
+            //day mode (by default)
+            wallPaint.setColor(Color.BLACK);
+            playerPaint.setColor(Color.rgb(255, 0, 0)); //red
+            exitPaint.setColor(Color.rgb(0,0,255)); //blue
+            lampPaint.setColor(Color.rgb(255,165,0)); //orange
+
+            ga.mainLayout.setBackgroundColor(Color.rgb(250,	250,	250));
+            ga.timeLabel.setTextColor(Color.BLACK);
+            ga.timeValue.setTextColor(Color.BLACK);
+            ga.lightSwitch.setTextColor(Color.BLACK);
+            ga.colorSwitch.setTextColor(Color.BLACK);
+            ga.chrono.setTextColor(Color.BLACK);
+
+
+
+        }
+        else {
+            //night mode
             wallPaint.setColor(Color.WHITE);
-            playerPaint.setColor(Color.RED);
-            exitPaint.setColor(Color.BLUE);
-            lampPaint.setColor(Color.YELLOW); //night mode
-        } else {
-            wallPaint.setColor(Color.GRAY);
-            playerPaint.setColor(Color.RED);
-            exitPaint.setColor(Color.BLUE);
-            lampPaint.setColor(Color.YELLOW); //day mode default
+            playerPaint.setColor(Color.rgb(178,34,34)); //firebrick
+            exitPaint.setColor(Color.rgb(65,105,255)); //royalblue
+            lampPaint.setColor(Color.rgb(255,140,0)); //darkorange
+
+
+            ga.mainLayout.setBackgroundColor(Color.DKGRAY);
+            ga.timeLabel.setTextColor(Color.WHITE);
+            ga.timeValue.setTextColor(Color.WHITE);
+            ga.colorSwitch.setTextColor(Color.WHITE);
+            ga.lightSwitch.setTextColor(Color.WHITE);
+            ga.chrono.setTextColor(Color.WHITE);
+
+
         }
 
-
-        //TO DO: main layout
 
 
     }
@@ -290,10 +309,10 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        if (ga.colorSwitch.isChecked())
-            canvas.drawColor(Color.BLACK);
+        if (!ga.colorSwitch.isChecked())
+            canvas.drawColor(Color.DKGRAY);
 
-        colorMode();
+        setColorMode();
 
         int width = getWidth();
         int height = getHeight();
@@ -325,11 +344,13 @@ public class GameView extends View {
 
     private void drawPlayer(Canvas canvas, float margin){
 
+        margin = (float)(1.3*margin);
+
         canvas.drawRect(
-                player.col*cellSize+2*margin,
-                player.row*cellSize+2*margin,
-                (player.col+1)*cellSize-2*margin,
-                (player.row+1)*cellSize-2*margin,
+                player.col*cellSize+margin,
+                player.row*cellSize+margin,
+                (player.col+1)*cellSize-margin,
+                (player.row+1)*cellSize-margin,
                 playerPaint);
     }
 

@@ -119,15 +119,16 @@
                             android:layout_weight="1"
                             android:checked="true"
                             android:onClick="lightStateChanged"
-                            android:text="Light " />
+                            android:text="Maze light: " />
 
                         <Switch
                             android:id="@+id/swColorMode"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:checked="true"
                             android:onClick="colorsStateChanged"
-                            android:text="Day mode " />
+                            android:text="Day mode: " />
 
                     </LinearLayout>
                 </LinearLayout>

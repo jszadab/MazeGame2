@@ -34,7 +34,8 @@ public class GameActivity extends AppCompatActivity {
 
 
         mainLayout = findViewById(R.id.mainLinearLayout);
-        gv = findViewById(R.id.gameview);
+
+        gv = findViewById(R.id.gameview); //"exchange" instance
     }
 
     public void Again(View view) {
@@ -74,10 +75,6 @@ public class GameActivity extends AppCompatActivity {
 
     public void colorsStateChanged(View view) {
 
-        if (colorSwitch.isChecked())
-        mainLayout.setBackgroundColor(Color.BLACK);
-        else
-            mainLayout.setBackgroundColor(Color.rgb(250,	250,	250));
         gv.invalidate();
     }
 }
