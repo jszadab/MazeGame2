@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/mainLinearLayout"
     tools:context=".GameActivity">
 
 
@@ -22,11 +23,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3">
+                android:layout_weight="4">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/chronometr">
 
                 <Chronometer
                     android:id="@+id/chrono"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -35,15 +47,34 @@
                     android:gravity="center_horizontal"
                     android:textSize="30sp" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/times">
+
+                <TextView
+                    android:id="@+id/bestTimeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chrono"
+                    android:layout_alignEnd="@+id/textView"
+                    android:text="Best time: " />
+
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="30sp"
+                    android:layout_below="@+id/bestTimeLabel"
+                    android:layout_marginBottom="21dp"
                     android:text="TextView" />
 
+                </LinearLayout>
+
+
+            </LinearLayout>
 
             </RelativeLayout>
 
@@ -52,34 +83,58 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/buttons">
 
                 <Button
                     android:id="@+id/button3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="Again"
-                    android:text="Save and again" />
+                    android:text="Again" />
 
                 <Button
                     android:id="@+id/button4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/button3"
-                    android:layout_alignParentStart="true"
-                    android:onClick="continueWithoutSave"
-                    android:text="Continue" />
+                    android:onClick="Next"
+                    android:text="Next" />
+
+            </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/switches"
+                    android:layout_below="@+id/buttons">
 
                 <Switch
-                    android:id="@+id/switch1"
+                    android:id="@+id/lightSw"
                     android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:onClick="stateChanged"
+                    android:onClick="lightStateChanged"
                     android:text="Light " />
+
+                <Switch
+                    android:id="@+id/colorSw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="colorStateChanged"
+                    android:text="Night mode " />
+
+                </LinearLayout>
+                </LinearLayout>
 
             </RelativeLayout>
         </LinearLayout>

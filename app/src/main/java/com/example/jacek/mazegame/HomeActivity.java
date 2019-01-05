@@ -18,13 +18,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void showScores(View view) {
-        Intent intent = new Intent(HomeActivity.this, ScoresActivity.class);
+    public void showManual(View view) {
+        Intent intent = new Intent(HomeActivity.this, ManualActivity.class);
         startActivity(intent);
-    }
-
-    private void loadMazes()
-    {
-
     }
 }

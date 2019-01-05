@@ -29,8 +29,8 @@ public class GameView extends View {
     private Paint wallPaint, playerPaint, exitPaint, lampPaint;
     private Random random;
 
-    private boolean isChronoStarted = false;
-    private long chronoTime;
+    public boolean isChronoStarted = false;
+    private int chronoTime;
 
     GameActivity ga;
 
@@ -38,17 +38,10 @@ public class GameView extends View {
         super(context, attrs);
 
         wallPaint = new Paint();
-        wallPaint.setColor(Color.GRAY);
         wallPaint.setStrokeWidth(WALL_THICKNESS);
-
         playerPaint = new Paint();
-        playerPaint.setColor(Color.RED);
-
         exitPaint = new Paint();
-        exitPaint.setColor(Color.BLUE);
-
         lampPaint = new Paint();
-        lampPaint.setColor(Color.YELLOW);
 
         random = new Random();
 
@@ -57,6 +50,26 @@ public class GameView extends View {
         ((MyApplication) MyApplication.getAppContext()).setMaze(new Maze(cells));
 
         ga = (GameActivity) context; //class instance with chrono etc.
+
+    }
+
+    public void colorMode(){
+
+        if (ga.colorSwitch.isChecked()){
+            wallPaint.setColor(Color.WHITE);
+            playerPaint.setColor(Color.RED);
+            exitPaint.setColor(Color.BLUE);
+            lampPaint.setColor(Color.YELLOW); //night mode
+        } else {
+            wallPaint.setColor(Color.GRAY);
+            playerPaint.setColor(Color.RED);
+            exitPaint.setColor(Color.BLUE);
+            lampPaint.setColor(Color.YELLOW); //day mode default
+        }
+
+
+        //TO DO: main layout
+
 
     }
 
@@ -114,6 +127,11 @@ public class GameView extends View {
     }
 
     public void setBegin(){
+
+
+        if (ga != null){
+            ga.chrono.setBase(SystemClock.elapsedRealtime());
+        }
         player = cells[0][0];
         lamps = new Cell[LAMPS];
         exit = cells[COLS -1][ROWS -1];
@@ -272,6 +290,11 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        if (ga.colorSwitch.isChecked())
+            canvas.drawColor(Color.BLACK);
+
+        colorMode();
+
         int width = getWidth();
         int height = getHeight();
 
@@ -371,9 +394,26 @@ public class GameView extends View {
     private void checkExit(){
 
             if (player == exit){
-                ga.chrono.stop();
-                chronoTime = SystemClock.elapsedRealtime() - ga.chrono.getBase();
+
+            setBestTime();
+            ga.resetChrono();
+
             }
+    }
+
+    private void setBestTime(){
+
+
+        chronoTime = (int)(SystemClock.elapsedRealtime() - ga.chrono.getBase())/1000;
+
+        if (ga.timeText.getVisibility() == View.INVISIBLE){
+            ga.timeText.setText(String.valueOf(chronoTime));
+            ga.timeText.setVisibility(View.VISIBLE);
+        } else if (chronoTime < Integer.parseInt(ga.timeText.getText().toString()) ){
+            ga.timeText.setText(String.valueOf(chronoTime));
+        }
+
+
     }
 
 
@@ -389,18 +429,21 @@ public class GameView extends View {
                 x -= hMargin;
                 y -= vMargin;
 
-                if (lamps[0] == null) {
-                    lamps[0] = new Cell((int)(x/cellSize),(int)(y/cellSize));
-                    invalidate();
-                }
-                else if (lamps[1] == null && ((lamps[0].col != (int)(x/cellSize) ) || (lamps[0].row != (int)(y/cellSize) ))) {
+                int col = (int)(x/cellSize);
+                int row = (int)(y/cellSize);
 
-                    lamps[1] = new Cell((int)(x/cellSize),(int)(y/cellSize));
-                    invalidate();
+                if (col >= 0 && col < COLS && row >= 0  && row < ROWS ) {
+
+                    if (lamps[0] == null) {
+                        lamps[0] = new Cell(col, row);
+                        invalidate();
+                    } else if (lamps[1] == null && ( lamps[0].col != col || lamps[0].row != row)) {
+
+                        lamps[1] = new Cell((int) (x / cellSize), (int) (y / cellSize));
+                        invalidate();
+                    }
                 }
             }
-
-
 
             return true;
         }
