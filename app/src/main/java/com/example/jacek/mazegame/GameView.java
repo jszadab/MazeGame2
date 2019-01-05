@@ -22,7 +22,8 @@ public class GameView extends View {
     private Cell[][] cells;
     private Cell[] lamps;
     private Cell player, exit;
-    private static final int COLS = 10, ROWS = 10, LAMPS = 2;
+    private static final int COLS = 10, ROWS = 10;
+    public static final int LAMPS = 2;
     private static final int WALL_THICKNESS = 4;
 
     private float cellSize, hMargin, vMargin;
@@ -61,14 +62,20 @@ public class GameView extends View {
             lampPaint.setColor(Color.rgb(255,165,0)); //orange
 
             ga.mainLayout.setBackgroundColor(Color.rgb(250,	250,	250));
+
             ga.timeLabel.setTextColor(Color.BLACK);
             ga.timeValue.setTextColor(Color.BLACK);
+
+            ga.timeLabel.setTextColor(Color.BLACK);
+            ga.timeValue.setTextColor(Color.BLACK);
+
+            ga.lampLabel.setTextColor(Color.BLACK);
+            ga.lampValue.setTextColor(Color.BLACK);
+
             ga.lightSwitch.setTextColor(Color.BLACK);
             ga.colorSwitch.setTextColor(Color.BLACK);
+
             ga.chrono.setTextColor(Color.BLACK);
-
-
-
         }
         else {
             //night mode
@@ -77,19 +84,22 @@ public class GameView extends View {
             exitPaint.setColor(Color.rgb(65,105,255)); //royalblue
             lampPaint.setColor(Color.rgb(255,140,0)); //darkorange
 
-
             ga.mainLayout.setBackgroundColor(Color.DKGRAY);
+
             ga.timeLabel.setTextColor(Color.WHITE);
             ga.timeValue.setTextColor(Color.WHITE);
+
+            ga.timeLabel.setTextColor(Color.WHITE);
+            ga.timeValue.setTextColor(Color.WHITE);
+
+            ga.lampLabel.setTextColor(Color.WHITE);
+            ga.lampValue.setTextColor(Color.WHITE);
+
             ga.colorSwitch.setTextColor(Color.WHITE);
             ga.lightSwitch.setTextColor(Color.WHITE);
+
             ga.chrono.setTextColor(Color.WHITE);
-
-
         }
-
-
-
     }
 
 
@@ -150,9 +160,11 @@ public class GameView extends View {
 
         if (ga != null){
             ga.chrono.setBase(SystemClock.elapsedRealtime());
+            ga.lampValue.setText(String.valueOf(LAMPS));
         }
         player = cells[0][0];
         lamps = new Cell[LAMPS];
+
         exit = cells[COLS -1][ROWS -1];
 
     }
@@ -454,14 +466,18 @@ public class GameView extends View {
                 int col = (int)(x/cellSize);
                 int row = (int)(y/cellSize);
 
+                int currLampsValue = Integer.parseInt(ga.lampValue.getText().toString());
+
                 if (col >= 0 && col < COLS && row >= 0  && row < ROWS ) {
 
                     if (lamps[0] == null) {
                         lamps[0] = new Cell(col, row);
+                        ga.lampValue.setText(String.valueOf(--currLampsValue));
                         invalidate();
                     } else if (lamps[1] == null && ( lamps[0].col != col || lamps[0].row != row)) {
 
                         lamps[1] = new Cell((int) (x / cellSize), (int) (y / cellSize));
+                        ga.lampValue.setText(String.valueOf(--currLampsValue));
                         invalidate();
                     }
                 }

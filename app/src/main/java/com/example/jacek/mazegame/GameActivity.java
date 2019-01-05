@@ -1,5 +1,4 @@
 package com.example.jacek.mazegame;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,7 @@ public class GameActivity extends AppCompatActivity {
 
     public Chronometer chrono;
     public Switch lightSwitch, colorSwitch;
-    public TextView timeValue, timeLabel;
+    public TextView timeValue, timeLabel, lampValue, lampLabel;
     public LinearLayout mainLayout;
 
     GameView gv;
@@ -27,15 +26,19 @@ public class GameActivity extends AppCompatActivity {
         lightSwitch = findViewById(R.id.swLight);
         colorSwitch = findViewById(R.id.swColorMode);
 
-        timeValue = findViewById(R.id.bestTimeValue);
+        timeValue = findViewById(R.id.txtBestTimeValue);
         timeValue.setVisibility(View.INVISIBLE);
-        timeLabel = findViewById(R.id.bestTimeLabel);
+        timeLabel = findViewById(R.id.txtBestTimeLabel);
         timeLabel.setVisibility(View.INVISIBLE);
+
+        lampValue = findViewById(R.id.txtLampValue);
+        lampLabel = findViewById(R.id.txtLampLabel);
 
 
         mainLayout = findViewById(R.id.mainLinearLayout);
 
         gv = findViewById(R.id.gameview); //"exchange" instance
+        lampValue.setText(String.valueOf(gv.LAMPS));
     }
 
     public void Again(View view) {

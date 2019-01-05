@@ -50,14 +50,14 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/bestTimeLabel"
+                            android:id="@+id/txtBestTimeLabel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Best time: " />
 
                         <TextView
-                            android:id="@+id/bestTimeValue"
+                            android:id="@+id/txtBestTimeValue"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -131,6 +131,32 @@
                             android:text="Day mode: " />
 
                     </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/lampInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switches"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtLampLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="Number of lamps to use: " />
+
+                    <TextView
+                        android:id="@+id/txtLampValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="" />
+
+
+                </LinearLayout>
+
                 </LinearLayout>
 
             </RelativeLayout>
