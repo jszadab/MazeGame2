@@ -13,7 +13,7 @@ public class GameActivity extends AppCompatActivity {
 
     public Chronometer chrono;
     public Switch lightSwitch, colorSwitch;
-    public TextView timeText;
+    public TextView timeValue, timeLabel;
     public LinearLayout mainLayout;
 
     GameView gv;
@@ -24,10 +24,15 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         chrono = findViewById(R.id.chrono);
-        lightSwitch = findViewById(R.id.lightSw);
-        colorSwitch = findViewById(R.id.colorSw);
-        timeText = findViewById(R.id.textView);
-        timeText.setVisibility(View.INVISIBLE);
+        lightSwitch = findViewById(R.id.swLight);
+        colorSwitch = findViewById(R.id.swColorMode);
+
+        timeValue = findViewById(R.id.bestTimeValue);
+        timeValue.setVisibility(View.INVISIBLE);
+        timeLabel = findViewById(R.id.bestTimeLabel);
+        timeLabel.setVisibility(View.INVISIBLE);
+
+
         mainLayout = findViewById(R.id.mainLinearLayout);
         gv = findViewById(R.id.gameview);
     }
@@ -44,6 +49,9 @@ public class GameActivity extends AppCompatActivity {
     public void Next(View view) {
 
         resetChrono();
+
+        timeValue.setVisibility(View.INVISIBLE);
+        timeLabel.setVisibility(View.INVISIBLE);
 
         gv.createMaze();
         gv.invalidate();
@@ -64,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
         gv.isChronoStarted = false;
     }
 
-    public void colorStateChanged(View view) {
+    public void colorsStateChanged(View view) {
 
         if (colorSwitch.isChecked())
         mainLayout.setBackgroundColor(Color.BLACK);

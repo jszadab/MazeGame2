@@ -30,48 +30,40 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:id="@+id/chronometr">
+                    <LinearLayout
+                        android:id="@+id/chronometr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                <Chronometer
-                    android:id="@+id/chrono"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="28dp"
-                    android:gravity="center_horizontal"
-                    android:textSize="30sp" />
+                        <Chronometer
+                            android:id="@+id/chrono"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
 
-                </LinearLayout>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:id="@+id/times">
+                    <LinearLayout
+                        android:id="@+id/times"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/bestTimeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/chrono"
-                    android:layout_alignEnd="@+id/textView"
-                    android:text="Best time: " />
+                        <TextView
+                            android:id="@+id/bestTimeLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Best time: " />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/bestTimeLabel"
-                    android:layout_marginBottom="21dp"
-                    android:text="TextView" />
+                        <TextView
+                            android:id="@+id/bestTimeValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="TextView" />
 
-                </LinearLayout>
+                    </LinearLayout>
 
 
             </LinearLayout>
@@ -88,52 +80,56 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/buttons">
+                    <LinearLayout
+                        android:id="@+id/buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="Again"
-                    android:text="Again" />
+                        <Button
+                            android:id="@+id/btnAgain"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="Again"
+                            android:text="Again" />
 
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="Next"
-                    android:text="Next" />
+                        <Button
+                            android:id="@+id/btnNext"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="Next"
+                            android:text="Next" />
 
-            </LinearLayout>
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/switches"
-                    android:layout_below="@+id/buttons">
+                    <LinearLayout
+                        android:id="@+id/switches"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/buttons"
+                        android:orientation="horizontal">
 
-                <Switch
-                    android:id="@+id/lightSw"
-                    android:checked="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="lightStateChanged"
-                    android:text="Light " />
+                        <Switch
+                            android:id="@+id/swLight"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:onClick="lightStateChanged"
+                            android:text="Light " />
 
-                <Switch
-                    android:id="@+id/colorSw"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="colorStateChanged"
-                    android:text="Night mode " />
+                        <Switch
+                            android:id="@+id/swColorMode"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="colorsStateChanged"
+                            android:text="Day mode " />
 
-                </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
             </RelativeLayout>

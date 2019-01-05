@@ -406,11 +406,12 @@ public class GameView extends View {
 
         chronoTime = (int)(SystemClock.elapsedRealtime() - ga.chrono.getBase())/1000;
 
-        if (ga.timeText.getVisibility() == View.INVISIBLE){
-            ga.timeText.setText(String.valueOf(chronoTime));
-            ga.timeText.setVisibility(View.VISIBLE);
-        } else if (chronoTime < Integer.parseInt(ga.timeText.getText().toString()) ){
-            ga.timeText.setText(String.valueOf(chronoTime));
+        if (ga.timeValue.getVisibility() == View.INVISIBLE){
+            ga.timeValue.setVisibility(View.VISIBLE);
+            ga.timeLabel.setVisibility(View.VISIBLE);
+            ga.timeValue.setText(String.valueOf(chronoTime));
+        } else if (chronoTime < Integer.parseInt(ga.timeValue.getText().toString()) ){
+            ga.timeValue.setText(String.valueOf(chronoTime));
         }
 
 
@@ -451,7 +452,7 @@ public class GameView extends View {
 
         if(event.getAction() == MotionEvent.ACTION_MOVE){
 
-            if (!ga.lightSwitch.isChecked()){
+            if (!ga.lightSwitch.isChecked() && player != exit){
                 float x = event.getX();
                 float y = event.getY();
 
