@@ -23,45 +23,54 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4">
+                android:layout_weight="4"
+                android:gravity="center">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <LinearLayout
                         android:id="@+id/chronometr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
                         <Chronometer
                             android:id="@+id/chrono"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/times"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_height="0dp"
+                        android:layout_below="@+id/chronometr"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
                         <TextView
                             android:id="@+id/txtBestTimeLabel"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Best time: " />
 
                         <TextView
                             android:id="@+id/txtBestTimeValue"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView" />
+                            android:text="" />
 
                     </LinearLayout>
 
@@ -73,18 +82,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3">
+                android:layout_weight="3"
+                android:gravity="center">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/buttons"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
                         <Button
                             android:id="@+id/btnAgain"
@@ -108,9 +121,11 @@
                     <LinearLayout
                         android:id="@+id/switches"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_below="@+id/buttons"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
                         <Switch
                             android:id="@+id/swLight"
@@ -133,29 +148,31 @@
                     </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/lampInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/switches"
-                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/lampInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_below="@+id/switches"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
-                    <TextView
-                        android:id="@+id/txtLampLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="Number of lamps to use: " />
+                        <TextView
+                            android:id="@+id/txtLampLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:text="Number of lamps to use: " />
 
-                    <TextView
-                        android:id="@+id/txtLampValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="" />
+                        <TextView
+                            android:id="@+id/txtLampValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="" />
 
 
-                </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
