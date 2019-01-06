@@ -1,4 +1,4 @@
-package com.example.jacek.mazegame;
+package com.github.jszadab.Pathfinder;
 
 public class Cell {
 

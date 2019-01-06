@@ -1,4 +1,4 @@
-package com.example.jacek.mazegame;
+package com.github.jszadab.Pathfinder;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.jacek.mazegame", appContext.getPackageName());
+        assertEquals("com.github.jszadab.Pathfinder", appContext.getPackageName());
     }
 }

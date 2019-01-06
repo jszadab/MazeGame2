@@ -222,7 +222,7 @@
         android:layout_weight="1">
 
         <view
-        class="com.example.jacek.mazegame.GameView"
+        class="com.github.jszadab.Pathfinder.GameView"
         android:id="@+id/gameview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

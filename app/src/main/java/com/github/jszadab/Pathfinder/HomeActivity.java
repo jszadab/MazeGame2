@@ -1,4 +1,4 @@
-package com.example.jacek.mazegame;
+package com.github.jszadab.Pathfinder;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
