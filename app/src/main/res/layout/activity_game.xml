@@ -123,7 +123,8 @@
                             android:onClick="onClickBtnAgain"
                             android:paddingLeft="10sp"
                             android:paddingRight="10sp"
-                            android:text="Again" />
+                            android:text="Again"
+                            android:textSize="15sp" />
 
                         <Button
                             android:id="@+id/btnNext"
@@ -133,7 +134,8 @@
                             android:onClick="onClickBtnNext"
                             android:paddingLeft="10sp"
                             android:paddingRight="10sp"
-                            android:text="Next" />
+                            android:text="Next"
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
